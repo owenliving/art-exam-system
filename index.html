@@ -364,7 +364,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
     <h4 style="font-weight:700;margin-bottom:.75rem">答题统计导出</h4>
     <p style="font-size:.82rem;color:#7a7265;margin-bottom:.75rem">导出学生答题数据，便于老师跟踪辅导</p>
     <button class="btn btn-outline" onclick="exportData()">导出学习数据 (CSV)</button>
-    <button class="btn btn-outline" onclick="exportStudentDB()" style="margin-left:.5rem">导出学生信息 (CSV)</button>
+    <button class="btn btn-outline" onclick="exportStudentDB()" style="margin-left:.5rem">🔒 导出学生信息 (CSV)</button>
   </div>
 </div>
 </div>
@@ -1988,6 +1988,11 @@ function exportStudentDB() {
   const db = JSON.parse(localStorage.getItem('dpy_artexam_students') || '[]');
   if (db.length === 0) {
     showToast('暂无学生数据', 'error');
+    return;
+  }
+  const pwd = prompt('请输入导出密码：');
+  if (pwd !== '5201314') {
+    if (pwd !== null) showToast('密码错误，请联系管理员', 'error');
     return;
   }
   let csv = '姓名,手机号,城市,目标院校,注册时间,做题总数,正确题数,练习次数,连续打卡,最后活跃\n';
